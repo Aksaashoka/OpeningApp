@@ -3,7 +3,7 @@ const path = require('path');
 
 const fileFilter = (req, file, cb) => {
 	if (file) {
-		file.mimetype.includes('audio')
+		file.mimetype.includes('audio') || file.mimetype.includes('image')
 			? cb(null, true)
 			: cb(new Error('File format not allowed.'), false);
 	} else {

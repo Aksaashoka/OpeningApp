@@ -7,6 +7,6 @@ router.get('/', (req, res) => {
 	res.send('hola');
 });
 
-router.post('/', upload.single('track'), uploadTrack);
+router.post('/', upload.array('tracks', 2), uploadTrack);
 
 module.exports = router;
