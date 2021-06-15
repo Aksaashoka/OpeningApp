@@ -2,7 +2,7 @@ import React from "react";
 import PlayerControls from "./PlayerControls";
 import PlayerDetail from "./PlayerDetail";
 import "./Player.css"
-import ReactPlayer from "react-player/"
+
 
 const Player = () => {
 
@@ -17,15 +17,8 @@ const Player = () => {
           className="serieImg"
         />
         <PlayerDetail />
-        <PlayerControls />   
+        <PlayerControls/>        
       </div>
-    
-    <audio controls>
-        <source src="https://storage.googleapis.com/dogs-web-app/Timbaland%20-%20Apologize%20ft.%20OneRepublic.mp3" type="audio/ogg"/>
-    </audio>
-    
-     <ReactPlayer controls url="https://storage.googleapis.com/dogs-web-app/Timbaland%20-%20Apologize%20ft.%20OneRepublic.mp3"/>
-      
       </div>
   );
 };
