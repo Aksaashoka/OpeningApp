@@ -1,0 +1,8 @@
+.titulo{
+ display: flex;
+}
+.formito{
+display: flex;
+flex-direction: column;
+width: 400px;
+}

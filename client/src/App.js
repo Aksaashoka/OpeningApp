@@ -1,10 +1,14 @@
-
 import './App.css';
 import Player from './Components/Player';
+import AudioUploader from './Components/AudioUploader';
 
 function App() {
   return (
-    <Player/>
+    <div className="paginacompleta">
+      <AudioUploader/>
+      <Player/>
+
+    </div>
   );
 }
 
