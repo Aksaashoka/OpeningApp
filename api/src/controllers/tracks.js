@@ -14,9 +14,9 @@ const getAllTracks = (req, res, next) => {
 
 const uploadTrack = async (req, res, next) => {
 	//req.body = {...JSON.parse(req.body.body)};
-	const {name, year, serie} = req.body;
+	const {name, year, serie, genre} = req.body;
 	const files = req.files;
-	if (!files || !name || !year || !serie)
+	if (!files || !name || !year || !serie || !genre)
 		return res.status(400).send({
 			response: '',
 			message: 'Failed',
@@ -35,6 +35,7 @@ const uploadTrack = async (req, res, next) => {
 			serie,
 			audioUrl,
 			imageUrl,
+			genre,
 		};
 		await db.ref('tracks').push(newTrack);
 		res.send({response: newTrack, message: 'Successful'});
