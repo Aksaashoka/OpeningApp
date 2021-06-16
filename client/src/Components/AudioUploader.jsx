@@ -1,7 +1,10 @@
 import React from "react";
 import { useState } from "react";
+import {useDispatch} from "react-redux"
+import {uploadTrack} from "../redux/actions"
 
 function AudioUploader() {
+  const dispatch= useDispatch()
   const [inputText, setInputText] = useState({
     name: "",
     year: "",
@@ -47,6 +50,7 @@ function AudioUploader() {
     let formito = new FormData();
     formito.append("body",{...inputText})
     formito.append("tracks",file.file)
+    dispatch(uploadTrack(formito))    
 };  
   return (
     <div>
@@ -54,9 +58,14 @@ function AudioUploader() {
       <div className="formito">
         <form id="uploader" onSubmit={HandleSubmit}>
           <label> Subi tu Opening</label>
-          <input type="text" name="serie" placeholder="Nombre de serie" />
+          <label> Titulo del opening</label>
+          <input type="text" name="name" onChange={HandleInput} />
+          <label>Serie</label>
+          <input type="text" name="serie" onChange={HandleInput} />
           <label>Año</label>
           <input type="number" min="1900" name="year" onChange={HandleInput} />
+          <label>Genero</label>
+          <input type="text"name="genre" onChange={HandleInput}></input>
           <input
             type="file"
             name="Mp3"
