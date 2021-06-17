@@ -8,10 +8,10 @@ import {
 const attempUpload = ()=>({
         type:UPLOAD_TRACK_ATTEMPT
     })
-const successUpload = response=>({
+const successUpload = data=>({
         type: UPLOAD_TRACK_SUCCESS,
         payload:{
-            response:response.data
+            response:data.response
         }
     })
 const failureUpload = error => ({
@@ -20,13 +20,30 @@ const failureUpload = error => ({
       error,
     }
   })
-export const uploadTrack = ()=>{
-    return async(dispatch)=>{
+export const uploadTrack = (formito)=>{
+    return async (dispatch) => {
         dispatch(attempUpload())
-        try{
-            let apiRes = 
-            await axios.post(`${process.env.REACT_APP_BACKEND_URL}/tracks`)
-            dispatch(successUpload(apiRes))
+        try {
+            const {data} = await axios({
+                method: 'post',
+                url: `${process.env.REACT_APP_BACKEND_URL}/tracks`,
+                data: formito,
+                headers: {
+                    Accept: "*/*"
+                },
+            })
+            dispatch(successUpload(data))
+            
+
+
+
+
+    // return async(dispatch)=>{
+    //     dispatch(attempUpload())
+    //     try{
+    //         let apiRes = 
+    //         await axios.post(`${process.env.REACT_APP_BACKEND_URL}/tracks`,formito)
+    //         dispatch(successUpload(apiRes))
         }catch (error){
             dispatch(failureUpload(error))
         }
