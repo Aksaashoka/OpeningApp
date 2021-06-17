@@ -13,9 +13,11 @@ const getAllTracks = (req, res, next) => {
 };
 
 const uploadTrack = async (req, res, next) => {
-	//req.body = {...JSON.parse(req.body.body)};
+	req.body = {...JSON.parse(req.body.body)};
+	console.log("backBody",req.body) 
 	const {name, year, serie, genre} = req.body;
 	const files = req.files;
+	console.log("backfiles",files)
 	if (!files || !name || !year || !serie || !genre)
 		return res.status(400).send({
 			response: '',
@@ -28,13 +30,13 @@ const uploadTrack = async (req, res, next) => {
 			)
 		);
 		const audioUrl = STORAGE_BASEURL + data[0][0].name;
-		const imageUrl = STORAGE_BASEURL + data[1][0].name;
+		// const imageUrl = STORAGE_BASEURL + data[1][0].name;
 		const newTrack = {
 			name,
 			year,
 			serie,
 			audioUrl,
-			imageUrl,
+			// imageUrl,
 			genre,
 		};
 		await db.ref('tracks').push(newTrack);
