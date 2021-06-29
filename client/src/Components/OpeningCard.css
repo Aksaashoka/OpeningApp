@@ -1,0 +1,13 @@
+.openingCard{
+    display: flex;
+    flex-direction: row;
+    width: 600px;
+    height: 100px;
+    border: 1px black solid;
+    border-radius: 4px;
+    padding: 5px;
+}
+.imgSerie{
+    width: 100px;
+    height: 100px;
+}

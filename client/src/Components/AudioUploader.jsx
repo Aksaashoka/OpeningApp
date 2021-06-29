@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { uploadTrack } from "../redux/actions";
+import "./AudioUploader.css"
 
 function AudioUploader() {
   const dispatch = useDispatch();
@@ -30,10 +31,12 @@ function AudioUploader() {
   const valifile = (obj, tipo) => {
     let errors = {};
     if (tipo === "mp3") {
-      if (!/audio/.test(obj.type) || obj.file.size >= 6291456)
+      console.log("entro en audio")
+      if (!/audio/.test(obj.type) || obj.size >= 6291456)
         errors.file = "Sólo Archivos de Audio, menores a 6 MB.";
     }
     if (tipo === "image") {
+      console.log("entro en imagen")
       if (!/image/.test(obj.type) || obj.size >= 2097152)
         errors.file = "Sólo Archivos de Imagen, menores a 2 MB.";
     }
@@ -63,17 +66,19 @@ function AudioUploader() {
       if (e.target.files[0]) {
         setImage({
           ...image,
-          image: e.target.files[0],
-          file: {
+            file: e.target.files[0],
+            name:e.target.value,
             size: e.target.files[0].size,
             type: e.target.files[0].type,
           },
-        });
+        );
       } else {
         setImage({
           ...image,
-          image: "",
           file: {},
+          name: "",
+          size: "",
+          type: "",
         });
       }
     }
@@ -92,16 +97,15 @@ function AudioUploader() {
     formito.append("tracks", mp3.file);
     formito.append("tracks",image.file);
     dispatch(uploadTrack(formito));
-    console.log("te lo confirmo", formito);
   };
   return (
-    <div>
-      <h1 className="titulo">Subite Ese TEMAIKEN</h1>
+    <div className="eserut">
+      <h1 className="titulo">Subi tu Opening</h1>
       <div className="formito">
-        <form id="uploader" onSubmit={HandleSubmit}>
-          <label> Subi tu Opening</label>
+        <form className="formito" onSubmit={HandleSubmit}>
           <label> Titulo del opening</label>
           <input
+          className="inputText"
             type="text"
             name="name"
             value={inputText.name}
@@ -109,6 +113,7 @@ function AudioUploader() {
           />
           <label>Serie</label>
           <input
+            className="inputText"
             type="text"
             name="serie"
             value={inputText.serie}
@@ -116,6 +121,7 @@ function AudioUploader() {
           />
           <label>Año</label>
           <input
+          className="inputText"
             type="number"
             min="1900"
             name="year"
@@ -124,6 +130,7 @@ function AudioUploader() {
           />
           <label>Genero</label>
           <input
+          className="inputText"
             type="text"
             name="genre"
             value={inputText.genre}
@@ -134,6 +141,7 @@ function AudioUploader() {
             type="file"
             name="mp3"
             id="file"
+            accept="audio/*"
             value={mp3.name}
             onChange={handlerfiles}
           />
@@ -142,10 +150,11 @@ function AudioUploader() {
             type="file"
             name="image"
             id="file"
-            value={image.image}
+            accept="image/*"
+            value={image.name}
             onChange={handlerfiles}
           />
-          <button type="submit">Subir</button>
+          <button className="uploadBtn" type="submit">Subir</button>
         </form>
       </div>
     </div>

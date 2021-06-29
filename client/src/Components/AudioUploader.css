@@ -1,8 +1,28 @@
+.eserut{
+    display: flex;
+    background-color: rgb(219, 20, 60,0.5);
+    flex-direction: column;
+    border-radius: 10px;
+    padding: 10px;
+    width: 150vh;
+    align-self: center;
+    margin-top: 100px;
+}
 .titulo{
- display: flex;
+    display: flex;
+    justify-content: center;
 }
 .formito{
 display: flex;
 flex-direction: column;
-width: 400px;
+justify-content: center;
+width: fit-content;
+}
+.inputText{
+    border-radius: 5px;
+    width: fit-content;
+    border: 1px solid ;
+}
+.uploadBtn{
+    width: fit-content;
 }
