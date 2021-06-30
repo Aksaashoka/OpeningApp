@@ -1,4 +1,5 @@
 const db = require('../firebase.js').database();
+const admin = require('../firebase.js');
 
 const getAllUsers = (req, res, next) => {
 	db.ref('users')
@@ -11,20 +12,22 @@ const getAllUsers = (req, res, next) => {
 };
 
 const createUser = async (req, res, next) => {
-	const {firstName, lastName, email, role} = req.body;
-	if (!firstName || !lastName || !email)
+	const {email, phoneNumber, password, fullName, photoURL} = req.body;
+	if (!email || !phoneNumber || !password || !fullName)
 		return res.status(400).send({
 			response: '',
 			message: 'Failed',
 		});
 	try {
-		const newUser = {
-			firstName,
-			lastName,
+		const newUser = await admin.auth().createUser({
 			email,
-			role: role || 'standar',
-		};
-		db.ref('users').push(newUser);
+			emailVerified: false,
+			phoneNumber,
+			password,
+			displayName: fullName,
+			photoURL: photoURL || 'http://www.example.com/12345678/photo.png',
+			disabled: false,
+		});
 		res.send({response: newUser, message: 'Successful'});
 	} catch (error) {
 		next(error);
