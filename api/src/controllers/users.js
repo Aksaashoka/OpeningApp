@@ -11,24 +11,48 @@ const getAllUsers = (req, res, next) => {
 		.catch((error) => next(error));
 };
 
-const createUser = async (req, res, next) => {
-	const {email, phoneNumber, password, fullName, photoURL} = req.body;
-	if (!email || !phoneNumber || !password || !fullName)
+const getOneUser = async (req, res, next) => {
+	const {uid} = req.params.uid;
+	try {
+		const userRef = await db
+			.ref('users')
+			.orderByChild('uid')
+			.equalTo(uid)
+			.once('value');
+		let user = userRef.val();
+		res.send({response: user, message: 'Successful'});
+	} catch (error) {
+		next(error);
+	}
+};
+
+const findOrCreateUser = async (req, res, next) => {
+	const {displayName, uid, photoURL} = req.body;
+	if (!displayName || !uid)
 		return res.status(400).send({
 			response: '',
 			message: 'Failed',
 		});
 	try {
-		const newUser = await admin.auth().createUser({
-			email,
-			emailVerified: false,
-			phoneNumber,
-			password,
-			displayName: fullName,
-			photoURL: photoURL || 'http://www.example.com/12345678/photo.png',
-			disabled: false,
+		const userRef = await db
+			.ref('users')
+			.orderByChild('uid')
+			.equalTo(uid)
+			.once('value');
+		let user = userRef.val();
+		if (!user) {
+			user = await db.ref('users').push({
+				uid,
+				fullName: displayName,
+				photoURL: photoURL || 'http://www.example.com/12345678/photo.png',
+				role: 'standar',
+			});
+		}
+		const userKey = Object.keys(user)[0];
+		res.send({
+			response: {key: userKey, info: user[userKey]},
+			message: 'Successful',
 		});
-		res.send({response: newUser, message: 'Successful'});
 	} catch (error) {
 		next(error);
 	}
@@ -65,4 +89,10 @@ const deleteUser = async (req, res, next) => {
 	}
 };
 
-module.exports = {getAllUsers, createUser, updateUser, deleteUser};
+module.exports = {
+	getAllUsers,
+	getOneUser,
+	findOrCreateUser,
+	updateUser,
+	deleteUser,
+};
